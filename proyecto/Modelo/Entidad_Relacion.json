@@ -1,0 +1,276 @@
+{
+  "erDoc": "entity Partida {\r\n    Archivo key\r\n    Mapa \r\n}\r\n\r\n\r\nentity Ronda depends on de_la {\r\n    Número pkey\r\n}\r\n\r\nentity Jugador {\r\n    ID key\r\n\r\n}\r\n\r\nentity Arma {\r\n    Nombre key\r\n    Tipo\r\n}\r\n\r\nentity Tick depends on en_la{\r\n    ID pkey\r\n    Segundo\r\n    Bomb_planted\r\n    Bomb_site\r\n    T_alive\r\n    CT_alive\r\n}\r\n\r\nRelation en_la(Tick 1!, Partida)\r\n\r\n\r\nRelation Participa(Jugador, Partida) {\r\n    Equipo\r\n}\r\n\r\nRelation Daño(Arma, Tick, Jugador: [Recibe, Inflige]) {\r\n\r\n}\r\n\r\nRelation de_la(Ronda 1!, Partida)\r\n\r\n",
+  "nodes": [
+    {
+      "id": "0",
+      "position": {
+        "x": 99.54965168966851,
+        "y": 25.976421783944446
+      }
+    },
+    {
+      "id": "1",
+      "position": {
+        "x": -104.30697777873081,
+        "y": -43.24328834708571
+      }
+    },
+    {
+      "id": "2",
+      "position": {
+        "x": -98.2499398686482,
+        "y": 38.76860944112947
+      }
+    },
+    {
+      "id": "3",
+      "position": {
+        "x": 98.86080981083171,
+        "y": -248.41705425943562
+      }
+    },
+    {
+      "id": "4",
+      "position": {
+        "x": -105.82714730031819,
+        "y": 5.424767300881712
+      }
+    },
+    {
+      "id": "5",
+      "position": {
+        "x": 502.98958143076425,
+        "y": 27.27661767820777
+      }
+    },
+    {
+      "id": "6",
+      "position": {
+        "x": 139.03950694197965,
+        "y": -1.2021889160990895
+      }
+    },
+    {
+      "id": "7",
+      "position": {
+        "x": 747.1143890517105,
+        "y": 317.0611945022116
+      }
+    },
+    {
+      "id": "8",
+      "position": {
+        "x": 6.199956402325483,
+        "y": 92.74151194404192
+      }
+    },
+    {
+      "id": "9",
+      "position": {
+        "x": 15.932905973349307,
+        "y": -83.87168825584183
+      }
+    },
+    {
+      "id": "18",
+      "position": {
+        "x": 299.0320545091122,
+        "y": 0.3866834219048627
+      }
+    },
+    {
+      "id": "19",
+      "position": {
+        "x": 14.364515909833699,
+        "y": -108.52995784828136
+      }
+    },
+    {
+      "id": "10",
+      "position": {
+        "x": 98.73809732083032,
+        "y": 311.28072227512445
+      }
+    },
+    {
+      "id": "11",
+      "position": {
+        "x": -140.66604962371366,
+        "y": -24.906229654099036
+      }
+    },
+    {
+      "id": "12",
+      "position": {
+        "x": -151.49656585674256,
+        "y": 40.515252551327876
+      }
+    },
+    {
+      "id": "13",
+      "position": {
+        "x": -156.63058764785194,
+        "y": 98.23775015484426
+      }
+    },
+    {
+      "id": "14",
+      "position": {
+        "x": -55.796480051868,
+        "y": 143.1887069799419
+      }
+    },
+    {
+      "id": "16",
+      "position": {
+        "x": 45.529045713855226,
+        "y": 146.42098978099204
+      }
+    },
+    {
+      "id": "15",
+      "position": {
+        "x": 121.81811181923854,
+        "y": 118.05116592406443
+      }
+    },
+    {
+      "id": "20",
+      "position": {
+        "x": 496.50224861115953,
+        "y": 289.7747313198765
+      }
+    },
+    {
+      "id": "21",
+      "position": {
+        "x": 97.20507766256219,
+        "y": -118.78051414815822
+      }
+    },
+    {
+      "id": "17",
+      "position": {
+        "x": 96.79722627367767,
+        "y": 128.81241634811585
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "entity-attr: Partida->Archivo",
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "id": "entity-attr: Partida->Mapa",
+      "source": "0",
+      "target": "2"
+    },
+    {
+      "id": "entity-attr: Ronda->Número",
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "id": "entity-attr: Jugador->ID",
+      "source": "5",
+      "target": "6"
+    },
+    {
+      "id": "entity-attr: Arma->Nombre",
+      "source": "7",
+      "target": "8"
+    },
+    {
+      "id": "entity-attr: Arma->Tipo",
+      "source": "7",
+      "target": "9"
+    },
+    {
+      "id": "relationship-part: Participa$Jugador$Partida->Jugador",
+      "source": "18",
+      "target": "5"
+    },
+    {
+      "id": "relationship-part: Participa$Jugador$Partida->Partida",
+      "source": "18",
+      "target": "0"
+    },
+    {
+      "id": "entity-attr: Tick->ID",
+      "source": "10",
+      "target": "11"
+    },
+    {
+      "id": "entity-attr: Tick->Segundo",
+      "source": "10",
+      "target": "12"
+    },
+    {
+      "id": "entity-attr: Tick->Bomb_planted",
+      "source": "10",
+      "target": "13"
+    },
+    {
+      "id": "entity-attr: Tick->Bomb_site",
+      "source": "10",
+      "target": "14"
+    },
+    {
+      "id": "entity-attr: Tick->CT_alive",
+      "source": "10",
+      "target": "16"
+    },
+    {
+      "id": "entity-attr: Tick->T_alive",
+      "source": "10",
+      "target": "15"
+    },
+    {
+      "id": "relationship-part: Daño$Arma$Jugador$Tick->Arma",
+      "source": "20",
+      "target": "7"
+    },
+    {
+      "id": "relationship-part: Daño$Arma$Jugador$Tick->Tick",
+      "source": "20",
+      "target": "10"
+    },
+    {
+      "id": "1relationship-part: Daño$Arma$Jugador$Tick->Jugador->Recibe",
+      "source": "20",
+      "target": "5"
+    },
+    {
+      "id": "4relationship-part: Daño$Arma$Jugador$Tick->Jugador->Inflige",
+      "source": "20",
+      "target": "5"
+    },
+    {
+      "id": "relationship-attr: Participa$Jugador$Partida->Equipo",
+      "source": "18",
+      "target": "19"
+    },
+    {
+      "id": "relationship-part: de_la$Partida$Ronda->Ronda",
+      "source": "21",
+      "target": "3"
+    },
+    {
+      "id": "relationship-part: de_la$Partida$Ronda->Partida",
+      "source": "21",
+      "target": "0"
+    },
+    {
+      "id": "relationship-part: en_la$Partida$Tick->Tick",
+      "source": "17",
+      "target": "10"
+    },
+    {
+      "id": "relationship-part: en_la$Partida$Tick->Partida",
+      "source": "17",
+      "target": "0"
+    }
+  ]
+}
