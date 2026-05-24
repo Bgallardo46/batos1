@@ -1,0 +1,100 @@
+-- =====================================================
+-- TIPOS PERSONALIZADOS
+-- =====================================================
+
+CREATE TYPE COORDENADA AS (
+    x FLOAT,
+    y FLOAT
+);
+
+CREATE TYPE LADO AS ENUM ('CounterTerrorist', 'Terrorist');
+
+CREATE TYPE SITIO_BOMBA AS ENUM ('A', 'B');
+
+CREATE TYPE HITBOX AS ENUM (
+    'Head', 'Chest', 'Stomach', 'RightArm', 'LeftArm',
+    'RightLeg', 'LeftLeg', 'Generic', 'Neck'
+);
+
+CREATE TYPE TIPO_RONDA AS ENUM (
+    'PISTOL_ROUND', 'ECO', 'SEMI_ECO', 'NORMAL', 'FORCE_BUY'
+);
+
+-- =====================================================
+-- ENTIDADES
+-- =====================================================
+
+CREATE TABLE Partida (
+    archivo VARCHAR(40) PRIMARY KEY,
+    mapa    VARCHAR(30) CHECK (mapa IN (
+        'de_dust2', 'de_mirage', 'de_inferno', 'de_nuke',
+        'de_overpass', 'de_cache', 'de_train', 'de_cbble'
+    ))
+);
+
+CREATE TABLE Ronda (
+    archivo       VARCHAR(40) REFERENCES Partida(archivo) ON DELETE CASCADE,
+    numero        INT,
+    start_seconds FLOAT,
+    end_seconds   FLOAT,
+    winner_team   VARCHAR(30),
+    winner_side   LADO,
+    round_type    TIPO_RONDA,
+    ct_eq_val     INT,
+    t_eq_val      INT,
+    PRIMARY KEY (archivo, numero)
+);
+
+CREATE TABLE Ticks (
+    archivo         VARCHAR(40),
+    numero_ronda    INT,
+    numero          INT,
+    ct_alive        INT,
+    t_alive         INT,
+    is_bomb_planted BOOL,
+    bomb_site       SITIO_BOMBA,
+    tiempo          FLOAT,
+    FOREIGN KEY (archivo, numero_ronda) REFERENCES Ronda(archivo, numero) ON DELETE CASCADE,
+    PRIMARY KEY (archivo, numero_ronda, numero)
+);
+
+CREATE TABLE Jugador (
+    id BIGINT PRIMARY KEY
+);
+
+CREATE TABLE Arma (
+    nombre VARCHAR(30) PRIMARY KEY,
+    tipo   VARCHAR(20)
+);
+
+-- =====================================================
+-- RELACIONES
+-- =====================================================
+
+CREATE TABLE Participacion (
+    archivo    VARCHAR(40) REFERENCES Partida(archivo) ON DELETE CASCADE,
+    id_jugador BIGINT REFERENCES Jugador(id) ON DELETE CASCADE,
+    equipo     VARCHAR(30),
+    PRIMARY KEY (archivo, id_jugador)
+);
+
+CREATE TABLE Danno (
+    id           SERIAL PRIMARY KEY,
+    att          BIGINT REFERENCES Jugador(id) ON DELETE CASCADE,
+    vic          BIGINT REFERENCES Jugador(id) ON DELETE CASCADE,
+    arma         VARCHAR(30) REFERENCES Arma(nombre) ON DELETE CASCADE,
+    partida      VARCHAR(40),
+    ronda        INT,
+    tick         INT,
+    lado_att     LADO,
+    lado_vic     LADO,
+    hitbox       HITBOX,
+    danno_hp     INT,
+    danno_armor  INT,
+    att_pos_x    FLOAT,
+    att_pos_y    FLOAT,
+    vic_pos_x    FLOAT,
+    vic_pos_y    FLOAT,
+    mata         BOOL,
+    FOREIGN KEY (partida, ronda, tick) REFERENCES Ticks(archivo, numero_ronda, numero) ON DELETE CASCADE
+);
