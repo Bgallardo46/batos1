@@ -1,5 +1,6 @@
 ## NOTAS DE LOS CAMBIOS Q HICE:
 
+### Hay q dejar los datos q descargamos en la carpeta de Procesamiento datos para q corra
 
 Eliminamos "lado" de "participación?
 
