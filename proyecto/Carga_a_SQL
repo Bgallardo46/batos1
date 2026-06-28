@@ -2,14 +2,9 @@
 -- TIPOS PERSONALIZADOS
 -- =====================================================
 
-CREATE TYPE COORDENADA AS (
-    x FLOAT,
-    y FLOAT
-);
-
 CREATE TYPE LADO AS ENUM ('CounterTerrorist', 'Terrorist');
 
-CREATE TYPE SITIO_BOMBA AS ENUM ('A', 'B');
+CREATE TYPE SITIO_BOMBA AS ENUM ('A', 'B', 'NOT PLANTED');
 
 CREATE TYPE HITBOX AS ENUM (
     'Head', 'Chest', 'Stomach', 'RightArm', 'LeftArm',
@@ -26,36 +21,36 @@ CREATE TYPE TIPO_RONDA AS ENUM (
 
 CREATE TABLE Partida (
     archivo VARCHAR(40) PRIMARY KEY,
-    mapa    VARCHAR(30) CHECK (mapa IN (
+    mapa    VARCHAR(30) NOT NULL,
+	CHECK (mapa IN (
         'de_dust2', 'de_mirage', 'de_inferno', 'de_nuke',
         'de_overpass', 'de_cache', 'de_train', 'de_cbble'
     ))
 );
 
 CREATE TABLE Ronda (
-    archivo       VARCHAR(40) REFERENCES Partida(archivo) ON DELETE CASCADE,
-    numero        INT,
-    start_seconds FLOAT,
-    end_seconds   FLOAT,
+    archivo       VARCHAR(40) NOT NULL REFERENCES Partida(archivo) ON DELETE CASCADE,
+    numero        INT NOT NULL,
     winner_team   VARCHAR(30),
     winner_side   LADO,
-    round_type    TIPO_RONDA,
     ct_eq_val     INT,
     t_eq_val      INT,
+    round_type    TIPO_RONDA NOT NULL,
+    start_seconds FLOAT,
+    end_seconds   FLOAT,
     PRIMARY KEY (archivo, numero)
 );
 
 CREATE TABLE Ticks (
-    archivo         VARCHAR(40),
-    numero_ronda    INT,
-    numero          INT,
-    ct_alive        INT,
-    t_alive         INT,
-    is_bomb_planted BOOL,
-    bomb_site       SITIO_BOMBA,
+    numero          INT NOT NULL,
+    archivo         VARCHAR(40) NOT NULL,
+    numero_ronda    INT NOT NULL,
     tiempo          FLOAT,
+    bomb_site       SITIO_BOMBA,
+    ct_alive        FLOAT,
+    t_alive         FLOAT,
     FOREIGN KEY (archivo, numero_ronda) REFERENCES Ronda(archivo, numero) ON DELETE CASCADE,
-    PRIMARY KEY (archivo, numero_ronda, numero)
+    PRIMARY KEY (numero, archivo, numero_ronda)
 );
 
 CREATE TABLE Jugador (
@@ -64,7 +59,7 @@ CREATE TABLE Jugador (
 
 CREATE TABLE Arma (
     nombre VARCHAR(30) PRIMARY KEY,
-    tipo   VARCHAR(20)
+    tipo   VARCHAR(20) NOT NULL
 );
 
 -- =====================================================
@@ -80,12 +75,12 @@ CREATE TABLE Participacion (
 
 CREATE TABLE Danno (
     id           SERIAL PRIMARY KEY,
-    att          BIGINT REFERENCES Jugador(id) ON DELETE CASCADE,
-    vic          BIGINT REFERENCES Jugador(id) ON DELETE CASCADE,
+    att          BIGINT NOT NULL REFERENCES Jugador(id) ON DELETE CASCADE,
+    vic          BIGINT NOT NULL REFERENCES Jugador(id) ON DELETE CASCADE,
     arma         VARCHAR(30) REFERENCES Arma(nombre) ON DELETE CASCADE,
-    partida      VARCHAR(40),
-    ronda        INT,
-    tick         INT,
+    partida      VARCHAR(40) NOT NULL,
+    ronda        INT NOT NULL,
+    tick         INT NOT NULL,
     lado_att     LADO,
     lado_vic     LADO,
     hitbox       HITBOX,
