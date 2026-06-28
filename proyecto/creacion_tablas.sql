@@ -1,3 +1,7 @@
+
+DROP SCHEMA csgo_dbs CASCADE;
+CREATE SCHEMA csgo_dbs;
+
 -- =====================================================
 -- TIPOS PERSONALIZADOS
 -- =====================================================
