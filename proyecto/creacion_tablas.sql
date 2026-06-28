@@ -36,8 +36,6 @@ CREATE TABLE Ronda (
     ct_eq_val     INT,
     t_eq_val      INT,
     round_type    TIPO_RONDA NOT NULL,
-    start_seconds FLOAT,
-    end_seconds   FLOAT,
     PRIMARY KEY (archivo, numero)
 );
 
@@ -45,10 +43,10 @@ CREATE TABLE Ticks (
     numero          INT NOT NULL,
     archivo         VARCHAR(40) NOT NULL,
     numero_ronda    INT NOT NULL,
-    tiempo          FLOAT,
+    segundo         FLOAT,
     bomb_site       SITIO_BOMBA,
-    ct_alive        FLOAT,
-    t_alive         FLOAT,
+    ct_alive        INT,
+    t_alive         INT,
     FOREIGN KEY (archivo, numero_ronda) REFERENCES Ronda(archivo, numero) ON DELETE CASCADE,
     PRIMARY KEY (numero, archivo, numero_ronda)
 );
