@@ -1,0 +1,1 @@
+scp -P 318 -r "Procesamiento datos"/output/ creacion_tablas.sql rellenado_tablas.sql rellenado.sh cc3201@cc3201.dcc.uchile.cl:/home/cc3201/
