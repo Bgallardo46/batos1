@@ -1,6 +1,6 @@
 import pandas as pd
 
-dato = "ticks"
+dato = "danno"
 archivo = f"./output/{dato}.csv"
 tamano_chunk = 50000
 
