@@ -10,9 +10,9 @@ CREATE TYPE LADO AS ENUM ('CounterTerrorist', 'Terrorist');
 
 CREATE TYPE SITIO_BOMBA AS ENUM ('A', 'B', 'NOT PLANTED');
 
-CREATE TYPE HITBOX AS ENUM (
+CREATE TYPE HITBOX AS ENUM  (
     'Head', 'Chest', 'Stomach', 'RightArm', 'LeftArm',
-    'RightLeg', 'LeftLeg', 'Generic', 'Neck'
+    'RightLeg', 'LeftLeg', 'Generic', 'Neck', '8'
 );
 
 CREATE TYPE TIPO_RONDA AS ENUM (
@@ -50,10 +50,13 @@ CREATE TABLE Ticks (
     segundo         FLOAT,
     bomb_site       SITIO_BOMBA,
     ct_alive        INT,
-    t_alive         INT,
-    FOREIGN KEY (archivo, numero_ronda) REFERENCES Ronda(archivo, numero) ON DELETE CASCADE,
-    PRIMARY KEY (numero, archivo, numero_ronda)
+    t_alive         INT
+    --FOREIGN KEY (archivo, numero_ronda) REFERENCES Ronda(archivo, numero) ON DELETE CASCADE,
+    --PRIMARY KEY (numero, archivo, numero_ronda)
 );
+
+-- ALTER TABLE ticks ADD PRIMARY KEY (numero, archivo, numero_ronda) 
+-- ALTER TABLE ticks ADD CONSTRAINT FK_Ticks_Ronda FOREIGN KEY (archivo, numero_ronda) REFERENCES Ronda(archivo, numero) ON DELETE CASCADE
 
 CREATE TABLE Jugador (
     id BIGINT PRIMARY KEY
@@ -77,21 +80,26 @@ CREATE TABLE Participacion (
 
 CREATE TABLE Danno (
     id           SERIAL PRIMARY KEY,
-    att          BIGINT NOT NULL REFERENCES Jugador(id) ON DELETE CASCADE,
-    vic          BIGINT NOT NULL REFERENCES Jugador(id) ON DELETE CASCADE,
-    arma         VARCHAR(30) REFERENCES Arma(nombre) ON DELETE CASCADE,
+    att          BIGINT NOT NULL, --REFERENCES Jugador(id) ON DELETE CASCADE,
+    vic          BIGINT NOT NULL, --REFERENCES Jugador(id) ON DELETE CASCADE,
+    arma         VARCHAR(30), --REFERENCES Arma(nombre) ON DELETE CASCADE,
     partida      VARCHAR(40) NOT NULL,
     ronda        INT NOT NULL,
     tick         INT NOT NULL,
     lado_att     LADO,
     lado_vic     LADO,
-    hitbox       HITBOX,
+    hitbox       VARCHAR(30),
     danno_hp     INT,
     danno_armor  INT,
     att_pos_x    FLOAT,
     att_pos_y    FLOAT,
-    vic_pos_x    FLOAT,
+    vic_pos_x    FLOAT, 
     vic_pos_y    FLOAT,
-    mata         BOOL,
-    FOREIGN KEY (partida, ronda, tick) REFERENCES Ticks(archivo, numero_ronda, numero) ON DELETE CASCADE
+    mata         BOOL
+    --FOREIGN KEY (partida, ronda, tick) REFERENCES Ticks(archivo, numero_ronda, numero) ON DELETE CASCADE
 );
+
+-- ALTER TABLE danno ADD PRIMARY KEY (id)
+-- ALTER TABLE ticks ADD CONSTRAINT FK_atacante FOREIGN KEY (att) REFERENCES jugador(id) ON DELETE CASCADE
+-- ALTER TABLE ticks ADD CONSTRAINT FK_victima FOREIGN KEY (att) REFERENCES jugador(id) ON DELETE CASCADE
+-- ALTER TABLE ticks ADD CONSTRAINT FK_Ticks_Arma FOREIGN KEY (arma) REFERENCES Arma(nombre) ON DELETE CASCADE
